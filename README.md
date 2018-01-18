@@ -5,7 +5,7 @@ Easily inject a loader into a button. Almost no boilerplate.
 
 ![image](https://user-images.githubusercontent.com/749374/35107228-b2abbf4a-fc70-11e7-87a5-93528c8797b8.png)
 ![image](https://user-images.githubusercontent.com/749374/35104923-9c57f12e-fc6a-11e7-86ef-aa3a11724dd4.png)
-![image](https://user-images.githubusercontent.com/749374/35110838-14d9a7d2-fc7a-11e7-83a0-6b2585021693.png)
+![image](https://user-images.githubusercontent.com/749374/35110918-41bbcf8c-fc7a-11e7-873d-ef9c05bf4256.png)
 
 Maintaining a `loading` prop in state, and passing it down to the deeply nested button/view requires annoying boilerplate that most often can removed.
 
