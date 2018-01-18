@@ -1,7 +1,7 @@
 React Nested Loader
 ==========================
 
-Easily inject a loader into a button. Almost no boilerplate.
+Easily inject a loader into a button.<br/>Almost no boilerplate.
 
 
 ![image](https://user-images.githubusercontent.com/749374/35107228-b2abbf4a-fc70-11e7-87a5-93528c8797b8.png)
@@ -10,9 +10,7 @@ Easily inject a loader into a button. Almost no boilerplate.
 ![image](https://user-images.githubusercontent.com/749374/35104923-9c57f12e-fc6a-11e7-86ef-aa3a11724dd4.png)
 ![image](https://user-images.githubusercontent.com/749374/35111647-007356b0-fc7c-11e7-89f9-1211519a1ac0.png)
 
-Maintaining a `loading` prop in state, and passing it down to the deeply nested button/view is annoying.
-
-This library removes the boilerplate.
+Because maintaining a `loading` prop in state, and passing it down<br/> to the deeply nested button/view is annoying.
 
 ## Usage
 
