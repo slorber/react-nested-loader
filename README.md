@@ -68,5 +68,5 @@ class Container extends React.Component {
 
 The HOC does hold the button loading state as React component state. This means it won't be in your state management system (Redux/Apollo/Mobx...) and as any local state you will loose ability to use devtools to replay that state (or other fancy features). In my opinion it is not critical state that is worth putting in your Redux store anyway. I assume perfectly using this lib as well as Redux/Redux-saga/Apollo mutations.
 
-Currently the lib only support injecting a single `loading` prop. As a component may receive multiple callbacks, we could inject 2 distinct loading props to support more complex usecases. Please come-up un issues with your specific usecase if you need additional features.
+Currently the lib only support injecting a single `loading` prop. As a component may receive multiple callbacks, we could inject multiple loading props. Please open issues with your specific usecase if needed.
 
