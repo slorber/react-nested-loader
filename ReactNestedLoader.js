@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function mapValue(object, iteratee) {
+function mapValues(object, iteratee) {
   object = Object(object);
   const result = {};
   Object.keys(object).forEach((key) => {
