@@ -11,18 +11,15 @@ For exemple, it removes most boilerplate code you need to inject a loader into a
 
 ## Usage
 
-```
+```javascript
 import ReactNestedLoader from "react-nested-loader";
 ```
 
 The ReactNestedLoader HOC will inject a `loading=false` prop to the wrapped component.
 Whenever a function props returns a promise (ie, `onClick` callback returns a promise) the button will receive `loading=true` during promise resolution.
 
-```
-const Button = ({
-                    onClick,
-                    loading,
-                  }) => (
+```javascript
+const Button = ({onClick,loading}) => (
   <button onClick={onClick} disabled={loading}>
     {loading ? "..." : "Click me "}
   </button>
