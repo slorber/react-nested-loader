@@ -3,9 +3,9 @@ React Nested Loader
 
 
 This lib provides a very easy way to inject a loader into deeply nested components.
-
 For exemple, it removes most boilerplate code you need to inject a loader into a button.
 
+![image](https://user-images.githubusercontent.com/749374/35107228-b2abbf4a-fc70-11e7-87a5-93528c8797b8.png)
 ![image](https://user-images.githubusercontent.com/749374/35104923-9c57f12e-fc6a-11e7-86ef-aa3a11724dd4.png)
 
 
