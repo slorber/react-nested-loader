@@ -1,51 +1,51 @@
 React Nested Loader
 ==========================
 
-This lib provides a very easy way to inject a loader into deeply nested component.
 
-This is quite common to show a spinner inside a button. 
+This lib provides a very easy way to inject a loader into deeply nested components.
+
+For exemple, it removes most boilerplate code you need to inject a loader into a button.
 
 ![image](https://user-images.githubusercontent.com/749374/35104923-9c57f12e-fc6a-11e7-86ef-aa3a11724dd4.png)
 
-Not particularly hard to achieve, this clearly requires some boilerplate. This library aims to remove that boilerplate.
 
 ## Usage
 
-
-```javascript
-import React from "react";
+```
 import ReactNestedLoader from "react-nested-loader";
-import MyAPI from "./MyAPI";
+```
 
+The ReactNestedLoader HOC will inject a `loading=false` prop to the wrapped component.
+Whenever a function props returns a promise (ie, `onClick` callback returns a promise) the button will receive `loading=true` during promise resolution.
 
-const MyButton = ({
+```
+const Button = ({
                     onClick,
-                    loading, // Injected by ReactNestedLoader
+                    loading,
                   }) => (
   <button onClick={onClick} disabled={loading}>
     {loading ? "..." : "Click me "}
   </button>
 );
+const LoadingButton = ReactNestedLoader(Button);
+```
 
 
-// This will inject a "loading" prop which is false by default.
-// Whenever a function props (ie, onClick callback) returns a promise
-// the button will receive "loading=true" during promise resolution
-const MyLoadingButton = ReactNestedLoader(MyButton);
 
+Using the `LoadingButton` into a top-level component: no need to use any local state, you just need to add a `return` and it works out of the box.
 
-// Just some intermediate component. There can be many intermediate components
+```javascript
 const SomeIntermediateComp = ({onButtonClick}) => (
   <WhateverYouWant>
-    <MyLoadingButton onClick={onButtonClick}/>
+    <LoadingButton onClick={onButtonClick}/>
   </WhateverYouWant>
 );
-
 
 class Container extends React.Component {
   handleClick = () => {
     const promise = MyAPI.doSomethingAsync();
-    // VERY IMPORTANT: the promise MUST returned to the button otherwise nothing will happen
+    // VERY IMPORTANT: the promise MUST be returned to the button
+    // the only boilerplate you need is return
     return promise;
   };
   render() {
@@ -57,3 +57,15 @@ class Container extends React.Component {
   }
 }
 ```
+
+
+## Features
+
+- Works with React and React-Native
+- The callback proxies are cached appropriately so that the button does not render unnecessarily
+- Will only handle the loading state of the last returned promise, to avoid concurrency issues
+- Imperative API (`componentRef.api.handlePromise(promise)`)
+- API injected as prop into button (`props.reactNestedLoader.handlePromise(promise))`
+
+
+
