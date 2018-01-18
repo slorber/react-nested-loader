@@ -69,3 +69,11 @@ The HOC does hold the button loading state as React component state. This means 
 
 Currently the lib only support injecting a single `loading` prop. As a component may receive multiple callbacks, we could inject multiple loading props. Please open issues with your specific usecase if needed.
 
+
+## Advices
+
+- Wrap generic app button with `ReactNestedLoader` and manage the `loading` prop inside it to show some alternative content like a spinner
+- When button component change from `loading=false` to `loading=true`, make sure the component dimension is not affected for better UX
+- A nice UX is to make the text disappear and make the spinner appear, as it does not mess-up with button dimensions (make sure to use a small-enough spinner)
+- If needed, pass spinner size in button props
+
