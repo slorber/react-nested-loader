@@ -89,7 +89,7 @@ Currently the lib only support injecting a single `loading` prop. As a component
 ## TODOS
 
 - Ability to rename injected prop
-- Ability to forward ref and expose `getWrappedInstance` like most HOC libs
+- Ability to forward ref with config `{withRef: true}` and expose `ref.getWrappedInstance()` like most HOC libs
 - Find more explicit name?
 - Support more advanced usecases?
 - Tests
