@@ -17,14 +17,12 @@ Manage for you the loading state of deeply nested views/buttons.<br/>This is **N
 
 ## Usage
 
+
+#### 1) Wrap your button:
+
 ```javascript
 import ReactNestedLoader from "react-nested-loader";
-```
 
-The ReactNestedLoader HOC will inject a `loading=false` prop to the wrapped component.
-Whenever a function props returns a promise (ie, `onClick` callback returns a promise) the button will receive `loading=true` during promise resolution.
-
-```javascript
 const Button = ({onClick,loading}) => (
   <button onClick={onClick} disabled={loading}>
     {loading ? "..." : "Click me "}
@@ -33,10 +31,11 @@ const Button = ({onClick,loading}) => (
 const LoadingButton = ReactNestedLoader(Button);
 ```
 
+The `ReactNestedLoader` HOC will inject a `loading=false` prop to the wrapped component.
+Whenever a function props returns a promise (ie, `onClick` callback returns a promise) the button will receive `loading=true` during promise resolution.
 
 
-Using the `LoadingButton` into a top-level component: no need to use any local state, you just need to add a `return` and it works out of the box.
-
+#### 2) Return a promise in container/smartComp/controller:
 
 
 ```javascript
@@ -49,9 +48,7 @@ const SomeIntermediateComp = ({onButtonClick}) => (
 class Container extends React.Component {
   handleClick = () => {
     const promise = MyAPI.doSomethingAsync();
-    // VERY IMPORTANT: the promise MUST be returned to the button
-    // the only boilerplate you need is a return statement
-    return promise;
+    return promise; // VERY IMPORTANT: the promise MUST be returned to the button
   };
   render() {
     return (
@@ -62,6 +59,9 @@ class Container extends React.Component {
   }
 }
 ```
+
+Using the `LoadingButton` into a top-level component.
+<br/>No need to use any local state, you just need to add a `return` in your callback and everything will work immmediately.
 
 
 ## Features
