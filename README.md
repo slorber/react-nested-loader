@@ -1,7 +1,7 @@
 React Nested Loader
 ==========================
 
-Easily manage the loading state of deeply nested views/buttons.<br/>Removes almost all the usual boilerplate (promise/state/props passing).<br/>This is **NOT an UI toolkit**, and it works with React and ReactNative.
+Manage for you the loading state of deeply nested views/buttons.<br/>Removes almost all the usual boilerplate (promise/state/props passing).<br/>This is **NOT an UI toolkit**, and it works with React and ReactNative.
 
 
 ![image](https://user-images.githubusercontent.com/749374/35107228-b2abbf4a-fc70-11e7-87a5-93528c8797b8.png)
@@ -50,7 +50,7 @@ class Container extends React.Component {
   handleClick = () => {
     const promise = MyAPI.doSomethingAsync();
     // VERY IMPORTANT: the promise MUST be returned to the button
-    // the only boilerplate you need is return
+    // the only boilerplate you need is a return statement
     return promise;
   };
   render() {
@@ -91,5 +91,6 @@ Currently the lib only support injecting a single `loading` prop. As a component
 - Ability to rename injected prop
 - Ability to forward ref and expose `getWrappedInstance` like most HOC libs
 - Find more explicit name?
+- Support more advanced usecases?
 - Tests
 
