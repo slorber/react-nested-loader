@@ -1,7 +1,7 @@
 React Nested Loader
 ==========================
 
-Manage for you the loading state of deeply nested views/buttons.<br/>Removes almost all the usual boilerplate (promise/state/props passing).<br/>This is **NOT an UI toolkit**, and it works with React and ReactNative.
+Manage for you the loading state of deeply nested views/buttons.<br/>This is **NOT an UI toolkit**, and it works with React and ReactNative.
 
 
 ![image](https://user-images.githubusercontent.com/749374/35107228-b2abbf4a-fc70-11e7-87a5-93528c8797b8.png)
@@ -11,7 +11,7 @@ Manage for you the loading state of deeply nested views/buttons.<br/>Removes alm
 ![image](https://user-images.githubusercontent.com/749374/35111647-007356b0-fc7c-11e7-89f9-1211519a1ac0.png)
 
 
-**Why:** because handling a promise correctly (without concurrency issues), maintaining a `loading` prop in state, and passing it down through a lot of imtermediary components to the deeply nested button/view requires too much boilerplate, and is error-prone (ie, concurrency issues in promise handling), yet it's a very common need in many applications to display a loading indicator/spinner inside a button that triggers an async action/api call/mutation.
+**Why:** because handling a promise, maintaining a `loading` prop in state, and passing it down through a lot of intermediate components to your button requires too much boilerplate, is error-prone (ie, concurrency issues in promise handling), yet it's a very common need in many applications to display a loading indicator/spinner inside a button that triggers an async action/api call/mutation.
 
 **How:** The button is wrapped by an HOC. The HOC will proxy all props callbacks passed to the button. Whenever a callback returns a promise, the HOC will intercept that promise and manage state for you. The button will receive `loading=true` until the promise resolves.
 
