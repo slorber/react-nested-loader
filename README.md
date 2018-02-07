@@ -64,6 +64,23 @@ Using the `LoadingButton` into a top-level component.
 <br/>No need to use any local state, you just need to add a `return` in your callback and everything will work immmediately.
 
 
+## API
+
+```javascript
+const LoadingButton = ReactNestedLoader(Button);
+```
+
+Or
+
+```javascript
+const LoadingButton = ReactNestedLoader(options)(Button);
+```
+
+### Options
+
+- **delay** [Boolean/Number/Function]: can permit to delay the loader removal. True by default so that loader removal does not happen before other promise callbacks (produces flicker). Can be a number, or a function like `(removeLoader) => window.requestIdleCallback(removeLoader)`;
+
+
 ## Features
 
 - Works with React and React-Native

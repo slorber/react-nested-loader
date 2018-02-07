@@ -16,9 +16,25 @@ function getDisplayName(WrappedComponent) {
 
 
 
-function wrap(Comp) {
+const DefaultConfig = {
+  // It is safer to delay by default slightly the loader removal
+  // For example if your promise has 2 then() callbacks (removal of a view and loader removal),
+  // this ensures that the loader is not removed just before view removal, leading to flicker
+  delay: true,
+};
+
+
+function wrap(Comp,config = DefaultConfig) {
+
+  const {
+    delay,
+  } = {
+    ...config,
+    ...DefaultConfig,
+  };
 
   class ReactNestedLoader extends React.Component {
+
     state = {
       loading: false,
     };
@@ -44,7 +60,9 @@ function wrap(Comp) {
     handlePromise = promise => {
       this.promise = promise;
       this.setLoading();
-      const handlePromiseResolve = () => {
+
+      // Handle potential concurrency issues due to handling multiple promises concurrently
+      const setNotLoadingSafe = () => {
         if (this.unmounted) {
           return;
         }
@@ -52,6 +70,25 @@ function wrap(Comp) {
           this.setNotLoading();
         }
       };
+
+      const handlePromiseResolve = () => {
+        // We add the ability to delay loader removal (see config comment)
+        if (delay) {
+          if (delay instanceof Function) {
+            delay(setNotLoadingSafe);
+          }
+          else if (delay instanceof Number ) {
+            setTimeout(setNotLoadingSafe,delay);
+          }
+          else {
+            setTimeout(setNotLoadingSafe,0);
+          }
+        }
+        else {
+          setNotLoadingSafe();
+        }
+      };
+
       promise.then(handlePromiseResolve, handlePromiseResolve);
     };
 
@@ -102,4 +139,11 @@ function wrap(Comp) {
 }
 
 
-export default Comp => wrap(Comp);
+export default compOrOptions => {
+  if ( typeof compOrOptions === 'object' ) {
+    return Comp => wrap(Comp,compOrOptions);
+  }
+  else {
+    return wrap(compOrOptions);
+  }
+}
