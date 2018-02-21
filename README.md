@@ -17,6 +17,8 @@ Manage for you the loading state of deeply nested views/buttons.<br/>This is **N
 
 ## Usage
 
+`npm install react-nested-loader`
+
 
 #### 1) Wrap your button:
 
