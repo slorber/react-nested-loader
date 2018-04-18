@@ -15,6 +15,47 @@ Manage for you the loading state of deeply nested views/buttons.<br/>This is **N
 
 **How:** The button is wrapped by an HOC. The HOC will proxy all props callbacks passed to the button. Whenever a callback returns a promise, the HOC will intercept that promise and manage state for you. The button will receive `loading=true` until the promise resolves.
 
+## Hello world:
+
+Here is a [CodeSandbox](https://codesandbox.io/s/oo991llpqz) hello world example with the following code.
+
+```js
+import React from "react";
+import { render } from "react-dom";
+import ReactNestedLoader from "react-nested-loader";
+
+const appStyle = {};
+const buttonStyle = {};
+
+let Button = ({
+  onClick,
+  text,
+  loading // will be injected
+}) => (
+  <button onClick={onClick} style={buttonStyle}>
+    {loading ? "..." : text}
+  </button>
+);
+
+// Step1: wrap your button so that it receives the loading prop
+Button = ReactNestedLoader(Button);
+
+const App = () => (
+  <div style={appStyle}>
+    <Button
+      text="click me"
+      onClick={e => {
+        const promise = fakeAPICall();
+        return promise; // Step2: return a promise
+      }}
+    />
+  </div>
+);
+
+render(<App />, document.getElementById("root"));
+
+```
+
 ## Usage
 
 `npm install react-nested-loader`
