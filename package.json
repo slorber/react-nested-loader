@@ -1,10 +1,10 @@
 {
   "name": "react-nested-loader",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Easiest way to inject a loader/spinner into a deeply nested component",
   "main": "ReactNestedLoaderBuild.js",
   "scripts": {
-    "build": "babel ReactNestedLoader.js --out-file ReactNestedLoaderBuild.js",
+    "build": "babel ReactNestedLoader.js --out-file ReactNestedLoaderBuild.js --plugins=transform-class-properties,transform-object-rest-spread --presets=es2015,react",
     "release": "npm run build && npm publish"
   },
   "repository": {
@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/slorber/react-nested-loader#readme",
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
+    "react": "*"
   },
-  "devDependencies": {
+  "dependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.5.2",
     "babel-plugin-transform-class-properties": "^6.8.0",
