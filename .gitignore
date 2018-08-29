@@ -4,7 +4,7 @@
 *.iml
 .idea
 
-ReactNestedLoaderBuild.js
+ReactNestedLoader.js
 
 ### Node template
 # Logs
