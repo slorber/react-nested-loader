@@ -1,5 +1,4 @@
 import React from "react";
-import {isForwardRef} from "react-is";
 
 
 function mapValues(object, iteratee) {
@@ -193,6 +192,9 @@ function wrap(Comp,config = DefaultConfig) {
     return ReactNestedLoader
   }
 }
+
+// see https://twitter.com/sebastienlorber/status/1034747209215041536
+const isForwardRef = x => typeof x.$$typeof === "symbol" && !!x.render
 
 export default compOrOptions => {
   if ( typeof compOrOptions === 'object' && !isForwardRef(compOrOptions) ) {

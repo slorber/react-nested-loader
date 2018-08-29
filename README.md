@@ -179,7 +179,6 @@ Currently the lib only support injecting a single `loading` prop. As a component
 
 ## TODOS
 
-- Ability to rename injected prop
 - Find more explicit name?
 - Support more advanced usecases?
 - Tests

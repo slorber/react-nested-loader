@@ -1,7 +1,7 @@
 {
   "name": "react-nested-loader",
-  "version": "2.0.0",
-  "description": "Easiest way to inject a loader/spinner into a deeply nested component",
+  "version": "2.0.1",
+  "description": "Easiest way to inject a loader/spinner into a deeply nested component (like a button)",
   "main": "ReactNestedLoaderBuild.js",
   "scripts": {
     "build": "babel ReactNestedLoader.js --out-file ReactNestedLoaderBuild.js --plugins=transform-class-properties,transform-object-rest-spread --presets=es2015,react",
@@ -28,13 +28,12 @@
   "peerDependencies": {
     "react": ">=16.3.0"
   },
-  "dependencies": {
+  "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.5.2",
     "babel-plugin-transform-class-properties": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "react-is": "^16.4.2"
+    "babel-preset-react": "^6.24.1"
   }
 }
