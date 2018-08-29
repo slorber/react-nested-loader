@@ -1,6 +1,6 @@
 {
   "name": "react-nested-loader",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Easiest way to inject a loader/spinner into a deeply nested component (like a button)",
   "main": "ReactNestedLoader.js",
   "scripts": {

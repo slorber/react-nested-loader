@@ -56,8 +56,8 @@ function wrap(Comp,config = DefaultConfig) {
     forwardRef,
     refProp,
   } = {
-    ...config,
     ...DefaultConfig,
+    ...config,
   };
 
   class ReactNestedLoader extends React.Component {
