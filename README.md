@@ -15,72 +15,45 @@ Manage for you the loading state of deeply nested views/buttons.<br/>This is **N
 
 **How:** The button is wrapped by an HOC. The HOC will proxy all props callbacks passed to the button. Whenever a callback returns a promise, the HOC will intercept that promise and manage state for you. The button will receive `loading=true` until the promise resolves.
 
-## Hello world:
+## Demo
 
-Here is a [CodeSandbox](https://codesandbox.io/s/oo991llpqz) hello world example with the following code.
-
-```js
-import React from "react";
-import { render } from "react-dom";
-import ReactNestedLoader from "react-nested-loader";
-
-const appStyle = {};
-const buttonStyle = {};
-
-let Button = ({
-  onClick,
-  text,
-  loading // will be injected
-}) => (
-  <button onClick={onClick} style={buttonStyle}>
-    {loading ? "..." : text}
-  </button>
-);
-
-// Step1: wrap your button so that it receives the loading prop
-Button = ReactNestedLoader(Button);
-
-const App = () => (
-  <div style={appStyle}>
-    <Button
-      text="click me"
-      onClick={e => {
-        const promise = fakeAPICall();
-        return promise; // Step2: return a promise
-      }}
-    />
-  </div>
-);
-
-render(<App />, document.getElementById("root"));
-
-```
+Here is a [CodeSandbox](https://codesandbox.io/s/olqwv8rkzz) demo
 
 ## Usage
 
 `npm install react-nested-loader`
 
-
-#### 1) Wrap your button:
+#### 1) Create a button:
 
 ```javascript
-import ReactNestedLoader from "react-nested-loader";
 
-const Button = ({onClick, loading, error}) => (
+const Button = ({
+  onClick, 
+  loading,
+  error,
+}) => (
   <button onClick={onClick} disabled={loading}>
     {error ? "Error" : loading ? "..." : "Click me "}
   </button>
 );
-const LoadingButton = ReactNestedLoader(Button);
 ```
 
-The `ReactNestedLoader` HOC will inject a `loading=false` and `error=undefined` prop to the wrapped component.
-Whenever a function props returns a promise (ie, `onClick` callback returns a promise) the button will receive `loading=true` during promise resolution.
-In case of failure, you receive the error, that you can dismiss as you want (for example to produce a button blinking effect)
+The button UI should be able to display appropriately loading/error states. You define the styling entirely.
 
-It is your responsability to choose the styling for the 3 possible cases: normal, loading, error.
+#### 2) Wrap your button:
 
-#### 2) Return a promise in container/smartComp/controller:
+```javascript
+import ReactNestedLoader from "react-nested-loader";
+
+const LoadingButton = ReactNestedLoader({
+  // optional but convenient: only inject the error for 1sec for blinking effect
+  onError: (error, remove) => setTimeout(remove,1000), 
+})(Button);
+```
+
+The `ReactNestedLoader` HOC will by default inject a `loading=false` and `error=undefined` prop to the wrapped component.
+
+#### 3) Return a promise in container/smartComp/controller:
 
 
 ```javascript
@@ -108,7 +81,7 @@ class Container extends React.Component {
 
 Using the `LoadingButton` into a top-level component.
 
-No need to use any local state, you just need to add a `return` in your callback and everything will work immmediately.
+No need to use any local state, you just need to return the promise to the button, and the `loading` / `error` prop of your button will be automatically updated according to the state of the last intercepted promise.
 
 
 ## API
@@ -120,7 +93,7 @@ const LoadingButton = ReactNestedLoader(Button);
 Or
 
 ```javascript
-const LoadingButton = ReactNestedLoader(options)(Button);
+const LoadingButton = ReactNestedLoader(config)(Button);
 ```
 
 ### Options
