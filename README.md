@@ -1,19 +1,23 @@
 React Nested Loader
 ==========================
 
-Manage for you the loading state of deeply nested views/buttons.<br/>This is **NOT an UI toolkit**, and it works with React and ReactNative.
+- Manage loading/error state of nested views/buttons triggering async actions
+- Not an UI lib, you provide the UI. Works with ReactNative.
+- *No boilerplate at all*, no need to use setState/Redux
 
+## Main usecase: button triggering api calls 
+
+You have a submit button on your form. For good UX you may want to:
+- show temporarily a spinner into the button
+- make the button blink on api errors
+
+Unfortunately, you are using Redux/setState/whatever, and implementing this kind of UX detail takes too much time/pollutes state/creates boilerplate so it is left for later while it doesn't have to.
 
 ![image](https://user-images.githubusercontent.com/749374/35107228-b2abbf4a-fc70-11e7-87a5-93528c8797b8.png)
 ![image](https://user-images.githubusercontent.com/749374/35110949-5457c7fe-fc7a-11e7-8fc9-c0e0687b01f6.png)
-
 ![image](https://user-images.githubusercontent.com/749374/35104923-9c57f12e-fc6a-11e7-86ef-aa3a11724dd4.png)
 ![image](https://user-images.githubusercontent.com/749374/35111647-007356b0-fc7c-11e7-89f9-1211519a1ac0.png)
 
-
-**Why:** because handling a promise, maintaining a `loading` prop in state, and passing it down through a lot of intermediate components to your button requires too much boilerplate, is error-prone (ie, concurrency issues in promise handling), yet it's a very common need in many applications to display a loading indicator/spinner inside a button that triggers an async action/api call/mutation.
-
-**How:** The button is wrapped by an HOC. The HOC will proxy all props callbacks passed to the button. Whenever a callback returns a promise, the HOC will intercept that promise and manage state for you. The button will receive `loading=true` until the promise resolves.
 
 ## Demo
 
