@@ -121,16 +121,33 @@ const LoadingButton = ReactNestedLoader(options)(Button);
 
 ### Options
 
-- **delay** [Boolean/Number/Function]: can permit to delay the loader removal. True by default so that loader removal does not happen before other promise callbacks (produces flicker). Can be a number, or a function like `(removeLoader) => window.requestIdleCallback(removeLoader)`;
-
+```js
+const DefaultConfig = {
+  // It is safer to delay by default slightly the loader removal
+  // For example if your promise has 2 then() callbacks (removal of a view and loader removal),
+  // this ensures that the loader is not removed just before view removal, leading to flicker
+  delay: true,
+  
+  // Should we use React.forwardRef (meaning it won't be possible to get this comp instance, just the wrapped comp)
+  forwardRef: true,
+  
+  // To which prop should the ref be forwarded
+  // - if wrapped component use forwardRef, then "ref" makes sense
+  // - else you may want to get the instance of the wrapped component, or it probably expose an "innerRef" prop...
+  refProp: 'ref',
+};
+```
 
 ## Features
 
 - Works with React and React-Native
 - The callback proxies are cached appropriately so that the underlying button does not render unnecessarily. If you provide stable callbacks, the HOC will pass-down stable proxies and your pure component button can bypass rendering
 - Will only handle the loading state of the last returned promise, to avoid concurrency issues (think `takeLatest` of Redux-saga`)
-- Imperative API (`componentRef.api.handlePromise(promise)`)
 - API injected as prop into button (`props.reactNestedLoader.handlePromise(promise))`
+- Can use React.forwardRef() (2.*)
+- Imperative API, when not forwarding ref (`componentRef.api.handlePromise(promise)`)
+
+
 
 ## Limits
 
@@ -149,7 +166,6 @@ Currently the lib only support injecting a single `loading` prop. As a component
 ## TODOS
 
 - Ability to rename injected prop
-- Ability to forward ref with config `{withRef: true}` and expose `ref.getWrappedInstance()` like most HOC libs
 - Find more explicit name?
 - Support more advanced usecases?
 - Tests

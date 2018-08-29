@@ -1,4 +1,5 @@
 import React from "react";
+import {isForwardRef} from "react-is";
 
 
 function mapValues(object, iteratee) {
@@ -15,12 +16,17 @@ function getDisplayName(WrappedComponent) {
 }
 
 
-
 const DefaultConfig = {
   // It is safer to delay by default slightly the loader removal
   // For example if your promise has 2 then() callbacks (removal of a view and loader removal),
   // this ensures that the loader is not removed just before view removal, leading to flicker
   delay: true,
+  // Should we use React.forwardRef (meaning it won't be possible to get this comp instance, just the wrapped comp)
+  forwardRef: true,
+  // To which prop should the ref be forwarded
+  // - if wrapped component use forwardRef, then "ref" makes sense
+  // - else you may want to get the instance of the wrapped component, or it probably expose an "innerRef" prop...
+  refProp: 'ref',
 };
 
 
@@ -28,6 +34,8 @@ function wrap(Comp,config = DefaultConfig) {
 
   const {
     delay,
+    forwardRef,
+    refProp,
   } = {
     ...config,
     ...DefaultConfig,
@@ -128,6 +136,7 @@ function wrap(Comp,config = DefaultConfig) {
           loading={this.state.loading}
           reactNestedLoader={this.api}
           {...mapValues(this.props, this.maybeBuildProxy)}
+          {...{[refProp]: this.props.innerRef}}
         />
       );
     }
@@ -135,12 +144,18 @@ function wrap(Comp,config = DefaultConfig) {
 
   ReactNestedLoader.displayName = `ReactNestedLoader(${getDisplayName(Comp)})`;
 
-  return ReactNestedLoader;
+  if ( forwardRef ) {
+    return React.forwardRef((props,ref) => (
+      <ReactNestedLoader {...props} innerRef={ref} />
+    ));
+  }
+  else {
+    return ReactNestedLoader
+  }
 }
 
-
 export default compOrOptions => {
-  if ( typeof compOrOptions === 'object' ) {
+  if ( typeof compOrOptions === 'object' && !isForwardRef(compOrOptions) ) {
     return Comp => wrap(Comp,compOrOptions);
   }
   else {
