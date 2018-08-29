@@ -69,14 +69,14 @@ var DefaultConfig = {
 function wrap(Comp) {
   var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DefaultConfig;
 
-  var _config$DefaultConfig = _extends({}, config, DefaultConfig),
-      loadingProp = _config$DefaultConfig.loadingProp,
-      errorProp = _config$DefaultConfig.errorProp,
-      apiProp = _config$DefaultConfig.apiProp,
-      onError = _config$DefaultConfig.onError,
-      delay = _config$DefaultConfig.delay,
-      forwardRef = _config$DefaultConfig.forwardRef,
-      refProp = _config$DefaultConfig.refProp;
+  var _DefaultConfig$config = _extends({}, DefaultConfig, config),
+      loadingProp = _DefaultConfig$config.loadingProp,
+      errorProp = _DefaultConfig$config.errorProp,
+      apiProp = _DefaultConfig$config.apiProp,
+      onError = _DefaultConfig$config.onError,
+      delay = _DefaultConfig$config.delay,
+      forwardRef = _DefaultConfig$config.forwardRef,
+      refProp = _DefaultConfig$config.refProp;
 
   var ReactNestedLoader = function (_React$Component) {
     _inherits(ReactNestedLoader, _React$Component);

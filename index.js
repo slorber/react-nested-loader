@@ -22,8 +22,8 @@ const DefaultConfig = {
   // The "error" prop to use for injecting the rejection error when this happen
   errorProp: "error",
 
-  // The "api" prop that will be injected into your component for manual control (ie send promises to handle)
-  apiProp: "reactNestedLoader",
+  // The "api" prop that will be injected into your component for manual control. Not injected by default
+  apiProp: false,
 
   // You might want to log the intercepted errors?
   // Sometimes you want to only display the promise error temporarily (for example, make the button blink on error)
@@ -171,11 +171,11 @@ function wrap(Comp,config = DefaultConfig) {
     render() {
       return (
         <Comp
-          {...{[loadingProp]: this.state.loading}}
-          {...{[errorProp]: this.state.error}}
-          {...{[apiProp]: this.api}}
+          {...(loadingProp && {[loadingProp]: this.state.loading})}
+          {...(errorProp && {[errorProp]: this.state.error})}
+          {...(apiProp && {[apiProp]: this.api})}
           {...mapValues(this.props, this.maybeBuildProxy)}
-          {...{[refProp]: this.props.innerRef}}
+          {...(refProp && {[refProp]: this.props.innerRef})}
         />
       );
     }
