@@ -123,14 +123,28 @@ const LoadingButton = ReactNestedLoader(options)(Button);
 
 ```js
 const DefaultConfig = {
+  // The "loading" prop to use for injecting the loading boolean value
+  loadingProp: "loading",
+
+  // The "error" prop to use for injecting the rejection error when this happen
+  errorProp: "error",
+
+  // The "api" prop that will be injected into your component for manual control (ie send promises to handle)
+  apiProp: "reactNestedLoader",
+
+  // You might want to log the intercepted errors?
+  // Sometimes you want to only display the promise error temporarily (for example, make the button blink on error)
+  // You can do so with: onError: (error, remove) => setTimeout(remove,1000)
+  onError: (error, remove) => {},
+
   // It is safer to delay by default slightly the loader removal
   // For example if your promise has 2 then() callbacks (removal of a view and loader removal),
   // this ensures that the loader is not removed just before view removal, leading to flicker
   delay: true,
-  
+
   // Should we use React.forwardRef (meaning it won't be possible to get this comp instance, just the wrapped comp)
   forwardRef: true,
-  
+
   // To which prop should the ref be forwarded
   // - if wrapped component use forwardRef, then "ref" makes sense
   // - else you may want to get the instance of the wrapped component, or it probably expose an "innerRef" prop...
