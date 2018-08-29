@@ -66,17 +66,19 @@ render(<App />, document.getElementById("root"));
 ```javascript
 import ReactNestedLoader from "react-nested-loader";
 
-const Button = ({onClick,loading}) => (
+const Button = ({onClick, loading, error}) => (
   <button onClick={onClick} disabled={loading}>
-    {loading ? "..." : "Click me "}
+    {error ? "Error" : loading ? "..." : "Click me "}
   </button>
 );
 const LoadingButton = ReactNestedLoader(Button);
 ```
 
-The `ReactNestedLoader` HOC will inject a `loading=false` prop to the wrapped component.
+The `ReactNestedLoader` HOC will inject a `loading=false` and `error=undefined` prop to the wrapped component.
 Whenever a function props returns a promise (ie, `onClick` callback returns a promise) the button will receive `loading=true` during promise resolution.
+In case of failure, you receive the error, that you can dismiss as you want (for example to produce a button blinking effect)
 
+It is your responsability to choose the styling for the 3 possible cases: normal, loading, error.
 
 #### 2) Return a promise in container/smartComp/controller:
 
@@ -91,7 +93,8 @@ const SomeIntermediateComp = ({onButtonClick}) => (
 class Container extends React.Component {
   handleClick = () => {
     const promise = MyAPI.doSomethingAsync();
-    return promise; // VERY IMPORTANT: the promise MUST be returned to the button
+    // VERY IMPORTANT: the promise MUST be returned to the button (or you can use "async handleClick")
+    return promise;
   };
   render() {
     return (
@@ -104,7 +107,8 @@ class Container extends React.Component {
 ```
 
 Using the `LoadingButton` into a top-level component.
-<br/>No need to use any local state, you just need to add a `return` in your callback and everything will work immmediately.
+
+No need to use any local state, you just need to add a `return` in your callback and everything will work immmediately.
 
 
 ## API
@@ -129,8 +133,8 @@ const DefaultConfig = {
   // The "error" prop to use for injecting the rejection error when this happen
   errorProp: "error",
 
-  // The "api" prop that will be injected into your component for manual control (ie send promises to handle)
-  apiProp: "reactNestedLoader",
+  // The "api" prop that will be injected into your component for manual control
+  apiProp: false,
 
   // You might want to log the intercepted errors?
   // Sometimes you want to only display the promise error temporarily (for example, make the button blink on error)

@@ -22,7 +22,7 @@ const DefaultConfig = {
   // The "error" prop to use for injecting the rejection error when this happen
   errorProp: "error",
 
-  // The "api" prop that will be injected into your component for manual control. Not injected by default
+  // The "api" prop that will be injected into your component for manual control
   apiProp: false,
 
   // You might want to log the intercepted errors?
