@@ -4,7 +4,7 @@
   "description": "Easiest way to inject a loader/spinner into a deeply nested component (like a button)",
   "main": "ReactNestedLoader.js",
   "scripts": {
-    "build": "babel src/ReactNestedLoader.js --out-file ReactNestedLoader.js --plugins=transform-class-properties,transform-object-rest-spread --presets=es2015,react",
+    "build": "babel index.js --out-file ReactNestedLoader.js --plugins=transform-class-properties,transform-object-rest-spread --presets=es2015,react",
     "release": "npm run build && npm publish"
   },
   "repository": {
