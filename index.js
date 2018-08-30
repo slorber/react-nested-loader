@@ -169,13 +169,14 @@ function wrap(Comp,config = DefaultConfig) {
     };
 
     render() {
+      const { innerRef, ...props } = this.props;
       return (
         <Comp
           {...(loadingProp && {[loadingProp]: this.state.loading})}
           {...(errorProp && {[errorProp]: this.state.error})}
           {...(apiProp && {[apiProp]: this.api})}
-          {...mapValues(this.props, this.maybeBuildProxy)}
-          {...(refProp && {[refProp]: this.props.innerRef})}
+          {...mapValues(props, this.maybeBuildProxy)}
+          {...(refProp && {[refProp]: innerRef})}
         />
       );
     }
