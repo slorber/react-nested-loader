@@ -193,12 +193,12 @@ function wrap(Comp,config = DefaultConfig) {
       const { innerRef, ...props } = this.props;
       return (
         <Comp
-          {...(loadingProp && {[loadingProp]: this.state.loading})}
-          {...(errorProp && {[errorProp]: this.state.error})}
-          {...(successProp && {[successProp]: this.state.success})}
-          {...(apiProp && {[apiProp]: this.api})}
+          {...(loadingProp && {[loadingProp]: this.state.loading} || {})}
+          {...(errorProp && {[errorProp]: this.state.error} || {})}
+          {...(successProp && {[successProp]: this.state.success} || {})}
+          {...(apiProp && {[apiProp]: this.api} || {})}
           {...mapValues(props, this.maybeBuildProxy)}
-          {...(refProp && {[refProp]: innerRef})}
+          {...(refProp && {[refProp]: innerRef} || {})}
         />
       );
     }
