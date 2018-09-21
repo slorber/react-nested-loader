@@ -19,16 +19,23 @@ const DefaultConfig = {
   // The "loading" prop to use for injecting the loading boolean value
   loadingProp: "loading",
 
-  // The "error" prop to use for injecting the rejection error when this happen
+  // The "error" prop to use for injecting the rejection error on failed async operation
   errorProp: "error",
+
+  // The "success" prop to use for injecting the success boolean on successful async operation
+  successProp: false,
 
   // The "api" prop that will be injected into your component for manual control
   apiProp: false,
+
 
   // You might want to log the intercepted errors?
   // Sometimes you want to only display the promise error temporarily (for example, make the button blink on error)
   // You can do so with: onError: (error, remove) => setTimeout(remove,1000)
   onError: (error, remove) => {},
+
+  // You can also inject a success boolean prop, and schedule its removal to give user feedback (like congratulations)
+  onSuccess: (result, remove) => {},
 
   // It is safer to delay by default slightly the loader removal
   // For example if your promise has 2 then() callbacks (removal of a view and loader removal),
@@ -50,8 +57,10 @@ function wrap(Comp,config = DefaultConfig) {
   const {
     loadingProp,
     errorProp,
+    successProp,
     apiProp,
     onError,
+    onSuccess,
     delay,
     forwardRef,
     refProp,
@@ -64,6 +73,7 @@ function wrap(Comp,config = DefaultConfig) {
 
     static InitialState = {
       loading: false,
+      success: undefined,
       error: undefined,
     };
 
@@ -88,8 +98,8 @@ function wrap(Comp,config = DefaultConfig) {
       this.promise = promise;
       const isCurrentPromise = () => promise === this.promise;
 
-      const handleResolve = (error = undefined) => {
-
+      const handleResolve = (error) => {
+        const success = !error;
         // Handle potential concurrency issues due to handling multiple promises concurrently
         // We only want to handle the last promise
         const doHandleResolve = () => {
@@ -97,10 +107,21 @@ function wrap(Comp,config = DefaultConfig) {
             this.setState(
               {
                 loading: false,
+                success,
                 error,
               },
               () => {
-                if (error) {
+                if (success) {
+                  const removeSuccess = () => {
+                    if (isCurrentPromise()) {
+                      this.setState({
+                        success: undefined,
+                      });
+                    }
+                  };
+                  onSuccess(error, removeSuccess)
+                }
+                else {
                   const removeError = () => {
                     if (isCurrentPromise()) {
                       this.setState({
@@ -174,6 +195,7 @@ function wrap(Comp,config = DefaultConfig) {
         <Comp
           {...(loadingProp && {[loadingProp]: this.state.loading})}
           {...(errorProp && {[errorProp]: this.state.error})}
+          {...(successProp && {[successProp]: this.state.success})}
           {...(apiProp && {[apiProp]: this.api})}
           {...mapValues(props, this.maybeBuildProxy)}
           {...(refProp && {[refProp]: innerRef})}
