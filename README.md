@@ -9,6 +9,7 @@ React Nested Loader
 
 You have a submit button on your form. For good UX you may want to:
 - show temporarily a spinner into the button
+- disable the button during the async operation
 - make the button blink on api errors
 
 Unfortunately, you are using Redux/setState/whatever, and implementing this kind of UX detail takes too much time/pollutes state/creates boilerplate so it is left for later while it doesn't have to.
