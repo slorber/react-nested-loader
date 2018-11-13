@@ -22,7 +22,7 @@ Unfortunately, you are using Redux/setState/whatever, and implementing this kind
 
 ## Demo
 
-Here is a [CodeSandbox](https://codesandbox.io/s/olqwv8rkzz) demo
+Here is a [CodeSandbox](https://codesandbox.io/s/w640yv5p9w) demo
 
 ## Usage
 
