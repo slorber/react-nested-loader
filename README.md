@@ -120,11 +120,11 @@ const DefaultConfig = {
 
   // You might want to log the intercepted errors?
   // Sometimes you want to only display the promise error temporarily (for example, make the button blink on error)
-  // You can do so with: onError: (error, remove) => setTimeout(remove,1000)
-  onError: (error, remove) => {},
+  // You can do so with: onError: (error, remove, isCurrentPromise) => setTimeout(remove,1000)
+  onError: (error, remove, isCurrentPromise) => {},
 
   // You can also inject a success boolean prop, and schedule its removal to give user feedback (like congratulations)
-  onSuccess: (result, remove) => {},
+  onSuccess: (result, remove, isCurrentPromise) => {},
 
   // It is safer to delay by default slightly the loader removal
   // For example if your promise has 2 then() callbacks (removal of a view and loader removal),

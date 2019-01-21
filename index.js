@@ -31,11 +31,11 @@ const DefaultConfig = {
 
   // You might want to log the intercepted errors?
   // Sometimes you want to only display the promise error temporarily (for example, make the button blink on error)
-  // You can do so with: onError: (error, remove) => setTimeout(remove,1000)
-  onError: (error, remove) => {},
+  // You can do so with: onError: (error, remove, isCurrentPromise) => setTimeout(remove,1000)
+  onError: (error, remove, isCurrentPromise) => {},
 
   // You can also inject a success boolean prop, and schedule its removal to give user feedback (like congratulations)
-  onSuccess: (result, remove) => {},
+  onSuccess: (result, remove, isCurrentPromise) => {},
 
   // It is safer to delay by default slightly the loader removal
   // For example if your promise has 2 then() callbacks (removal of a view and loader removal),
@@ -98,65 +98,66 @@ function wrap(Comp,config = DefaultConfig) {
       this.promise = promise;
       const isCurrentPromise = () => promise === this.promise;
 
-      const handleResolve = (error) => {
+      const removeSuccess = () => {
+        if (isCurrentPromise()) {
+          this.setState({
+            success: undefined,
+          });
+        }
+      };
+      const removeError = () => {
+        if (isCurrentPromise()) {
+          this.setState({
+            error: undefined,
+          });
+        }
+      };
+
+      const handleResolve = (result,error) => {
         const success = !error;
         // Handle potential concurrency issues due to handling multiple promises concurrently
         // We only want to handle the last promise
-        const doHandleResolve = () => {
+        this.scheduleWithDelay(() => {
           if (isCurrentPromise()) {
             this.setState(
               {
                 loading: false,
                 success,
                 error,
-              },
-              () => {
-                if (success) {
-                  const removeSuccess = () => {
-                    if (isCurrentPromise()) {
-                      this.setState({
-                        success: undefined,
-                      });
-                    }
-                  };
-                  onSuccess(error, removeSuccess)
-                }
-                else {
-                  const removeError = () => {
-                    if (isCurrentPromise()) {
-                      this.setState({
-                        error: undefined,
-                      });
-                    }
-                  };
-                  onError(error, removeError)
-                }
               }
             );
           }
-        };
+        });
 
-        // Handle the delaying of resolution
-        if (delay) {
-          if (delay instanceof Function) {
-            delay(doHandleResolve);
-          }
-          else if (delay instanceof Number ) {
-            setTimeout(doHandleResolve,delay);
-          }
-          else {
-            setTimeout(doHandleResolve,0);
-          }
+        if (success) {
+          onSuccess(result, removeSuccess, isCurrentPromise())
         }
         else {
-          doHandleResolve();
+          onError(error, removeError, isCurrentPromise())
         }
       };
 
       promise.then(
-        () => handleResolve(),
-        e => handleResolve(e)
+        result => handleResolve(result),
+        e => handleResolve(null,e)
       );
+    };
+
+    scheduleWithDelay = (fn) => {
+      if (delay) {
+        if (delay instanceof Function) {
+          delay(fn);
+        }
+        else if (delay instanceof Number ) {
+          setTimeout(fn,delay);
+        }
+        else {
+          setTimeout(fn,0);
+        }
+      }
+      else {
+        fn();
+      }
     };
 
     buildProxy = fn => {
