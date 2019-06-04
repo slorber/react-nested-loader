@@ -1,3 +1,9 @@
+ARCHIVED REPO.
+
+Deprecated in favor of [react-async-hook](https://github.com/slorber/react-async-hook) which permit the same thing with a better hooks-based api, with `useAsyncCallback`.
+
+
+
 React Nested Loader
 ==========================
 
